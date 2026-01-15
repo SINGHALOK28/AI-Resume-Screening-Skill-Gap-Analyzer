@@ -1,0 +1,25 @@
+# AI Resume Screening & Skill Gap Analyzer
+# Requirements file
+
+# Core dependencies
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# PDF and document processing
+pypdf>=3.17.0
+python-docx>=1.1.0
+pdfplumber>=0.9.0  # Optional but recommended for better PDF parsing
+
+# NLP and ML
+transformers>=4.35.0
+sentence-transformers>=2.2.2
+torch>=2.0.0
+
+# PDF generation for reports
+reportlab>=4.0.0
+
+# Optional: For better text processing
+nltk>=3.8.1
+spacy>=3.7.0
+
