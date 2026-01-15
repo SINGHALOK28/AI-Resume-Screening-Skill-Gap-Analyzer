@@ -80,19 +80,32 @@ In the sidebar, you can:
 ```
 ai-resume-screening/
 ├── app/
-│   └── streamlit_app.py          # Main Streamlit application
+│   └── streamlit_app.py          # Main Streamlit application with UI components
 ├── embeddings/
-│   ├── skill_extractor.py        # Skill extraction and categorization
-│   └── similarity_engine.py      # Semantic similarity calculations
+│   ├── __init__.py               # Package initializer
+│   ├── similarity_engine.py      # Semantic similarity calculations using Sentence Transformers
+│   └── skill_extractor.py        # Skill extraction and categorization with pattern matching
 ├── generation/
-│   └── recommendation_generator.py # AI recommendation generation
+│   ├── __init__.py               # Package initializer
+│   └── recommendation_generator.py # AI recommendation generation with template-based suggestions
 ├── preprocessing/
-│   ├── resume_parser.py          # Resume text extraction
-│   ├── jd_parser.py              # Job description processing
+│   ├── __init__.py               # Package initializer
+│   ├── resume_parser.py          # Resume text extraction from PDF/DOCX formats
+│   ├── jd_parser.py              # Job description processing and cleaning
 │   └── text_cleaner.py           # Text normalization utilities
-├── tests/                        # Test files
-├── requirements.txt              # Dependencies
-├── README.md                     # Documentation
+├── tests/                        # Comprehensive test suite
+│   ├── debug_similarity.py       # Similarity engine debugging tests
+│   ├── debug_skills.py           # Skill extraction debugging tests
+│   ├── full_pipeline_test.py     # End-to-end pipeline tests
+│   ├── test_fixes.py             # Bug fix validation tests
+│   ├── test_imports.py           # Import validation tests
+│   ├── test_problematic_resume.py # Problematic resume handling tests
+│   ├── test_recommendations.py   # Recommendation generation tests
+│   └── test_skill_extraction.py  # Skill extraction validation tests
+├── .gitignore                    # Git ignore rules
+├── QUICKSTART.md                 # Quick start guide
+├── README.md                     # Project documentation
+├── requirements.txt              # Python dependencies
 └── run_app.bat                   # Windows startup script
 ```
 
