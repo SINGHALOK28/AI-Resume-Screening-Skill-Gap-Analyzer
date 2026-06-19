@@ -96,10 +96,10 @@ def test_various_resume_formats():
         print(f"   Match: {found_count}/{expected_count}")
         
         if found_count >= max(1, expected_count // 2):  # At least half should match
-            print("   ✓ PASS")
+            print("   [OK] PASS")
             passed_tests += 1
         else:
-            print("   ✗ FAIL")
+            print("   [FAIL] FAIL")
     
     print(f"\nSUMMARY: {passed_tests}/{total_tests} tests passed")
     return passed_tests == total_tests

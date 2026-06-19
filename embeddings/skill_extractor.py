@@ -14,6 +14,9 @@
 
 # Import library for regular expressions
 import re
+# Import spacy for NER
+import spacy
+from spacy.matcher import Matcher
 # Import type hints for function signatures
 from typing import List, Dict, Set
 
@@ -57,6 +60,59 @@ SOFT_SKILLS = {
     "project management", "time management", "adaptability", "creativity", "analytical",
     "collaboration", "presentation", "negotiation", "mentoring", "agile methodology"
 }
+
+_nlp = None
+
+def get_nlp():
+    global _nlp
+    if _nlp is None:
+        try:
+            _nlp = spacy.load("en_core_web_md")
+        except Exception:
+            try:
+                _nlp = spacy.load("en_core_web_sm")
+            except Exception:
+                _nlp = False
+    return _nlp
+
+def dynamic_extract_skills(text: str) -> List[str]:
+    """Uses NLP to extract skills based on context and entities."""
+    nlp = get_nlp()
+    if not nlp:
+        return []
+    
+    doc = nlp(text)
+    dynamic_skills = []
+    
+    # Strategy 1: Extract specific entities that are often technologies
+    for ent in doc.ents:
+        if ent.label_ in ['ORG', 'PRODUCT']:
+            skill = ent.text.lower().strip()
+            # Basic validation
+            if 2 <= len(skill) <= 25 and not re.search(r'[^a-z0-9\s\.\+\-#]', skill):
+                dynamic_skills.append(skill)
+                
+    # Strategy 2: Contextual matching
+    matcher = Matcher(nlp.vocab)
+    patterns = [
+        [{"LOWER": {"IN": ["proficient", "fluent", "experienced", "skilled"]}}, {"LOWER": "in"}, {"POS": "PROPN", "OP": "+"}],
+        [{"LOWER": "experience"}, {"LOWER": "with"}, {"POS": "PROPN", "OP": "+"}],
+        [{"LOWER": "knowledge"}, {"LOWER": "of"}, {"POS": "PROPN", "OP": "+"}],
+        [{"LOWER": {"IN": ["using", "leveraging"]}}, {"POS": "PROPN", "OP": "+"}],
+    ]
+    for i, pattern in enumerate(patterns):
+        matcher.add(f"SKILL_PATTERN_{i}", [pattern])
+        
+    matches = matcher(doc)
+    for match_id, start, end in matches:
+        span = doc[start:end]
+        skill_parts = [token.text.lower() for token in span if token.pos_ == "PROPN"]
+        if skill_parts:
+            skill = " ".join(skill_parts)
+            if 2 <= len(skill) <= 25 and not re.search(r'[^a-z0-9\s\.\+\-#]', skill):
+                dynamic_skills.append(skill)
+                
+    return dynamic_skills
 
 
 def extract_skills(text: str, skill_database: Set[str] = None) -> List[str]:
@@ -185,6 +241,10 @@ def extract_skills(text: str, skill_database: Set[str] = None) -> List[str]:
         # Only add if it matches strict patterns AND appears standalone
         if (matches_strict or in_skills_list) and is_standalone:
             found_skills.append(skill)
+            
+    # Add dynamic NLP extracted skills
+    dynamic_skills = dynamic_extract_skills(text)
+    found_skills.extend(dynamic_skills)
     
     # Remove duplicates while preserving order
     seen = set()

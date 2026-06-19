@@ -24,7 +24,7 @@ from typing import Dict, Tuple
 class SimilarityEngine:
     """Handles semantic similarity computation using sentence transformers."""
     
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
+    def __init__(self, model_name: str = "all-mpnet-base-v2"):
         """
         Initialize the similarity engine with a sentence transformer model.
         
@@ -188,7 +188,7 @@ class SimilarityEngine:
 _similarity_engine = None
 
 
-def get_similarity_engine(model_name: str = "all-MiniLM-L6-v2") -> SimilarityEngine:
+def get_similarity_engine(model_name: str = "all-mpnet-base-v2") -> SimilarityEngine:
     """
     Get or create a global similarity engine instance.
     

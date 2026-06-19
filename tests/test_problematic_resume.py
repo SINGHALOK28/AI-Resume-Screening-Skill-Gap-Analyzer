@@ -85,9 +85,9 @@ Tech: JS, TS, PY, SQL, AWS""",
         print(f"   Count: {len(extracted_skills)}")
         
         if len(extracted_skills) == 0:
-            print("   ⚠️  No skills extracted - this is expected for this type of resume")
+            print("   [WARN] No skills extracted - this is expected for this type of resume")
         else:
-            print(f"   ✅ Found {len(extracted_skills)} skills")
+            print(f"   [OK] Found {len(extracted_skills)} skills")
 
 def test_with_skills_that_should_be_found():
     print("\n" + "="*60)
@@ -118,9 +118,9 @@ def test_with_skills_that_should_be_found():
         print(f"   Count: {len(extracted_skills)}")
         
         if len(extracted_skills) == 0:
-            print("   ❌ PROBLEM: No skills extracted from text that should have skills!")
+            print("   [FAIL] PROBLEM: No skills extracted from text that should have skills!")
         else:
-            print(f"   ✅ OK: Found {len(extracted_skills)} skills")
+            print(f"   [OK] Found {len(extracted_skills)} skills")
 
 if __name__ == "__main__":
     print("TESTING POTENTIALLY PROBLEMATIC RESUME FORMATS")

@@ -109,10 +109,10 @@ def test_full_pipeline():
     
     # Overall assessment
     if all(len(skills) == 0 for skills in [skills_direct, skills_from_file, skills_bytesio]):
-        print("\n❌ ISSUE: No skills extracted in any test - there may be a problem with the skill extraction logic")
+        print("\n[FAIL] ISSUE: No skills extracted in any test - there may be a problem with the skill extraction logic")
         return False
     else:
-        print(f"\n✅ SUCCESS: Skills extracted in at least one test")
+        print(f"\n[OK] SUCCESS: Skills extracted in at least one test")
         return True
 
 def test_edge_cases():
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     
     print("\n" + "="*60)
     if success:
-        print("✅ Pipeline test completed successfully")
+        print("[OK] Pipeline test completed successfully")
     else:
-        print("❌ Pipeline test revealed issues")
+        print("[FAIL] Pipeline test revealed issues")
     print("="*60)

@@ -86,35 +86,26 @@ class RecommendationGenerator:
         """Generate feedback using LLM."""
         match_score_str = f"{match_score:.2%}" if match_score else "Not provided"
         
-        # Enhanced prompt with better structure and guidance for the LLM
-        prompt = f"""You are an expert career advisor helping job seekers improve their resumes with real-world, market-aligned recommendations. Analyze the following information and provide detailed, actionable recommendations:
+        prompt = f"""<|system|>
+You are an expert career advisor helping job seekers improve their resumes. Be specific, actionable, and encouraging. Focus on practical steps with real-world applications and market relevance.
+</s>
+<|user|>
+Analyze the following information and provide detailed, actionable recommendations:
 
 MATCH ANALYSIS:
 - Overall Match Score: {match_score_str}
 - Missing Skills: {', '.join(missing_skills[:15]) if missing_skills else 'None'}
 - Current Skills: {', '.join(resume_skills[:15]) if resume_skills else 'None'}
 
-Provide structured recommendations in the following format:
-
-## Market-Aligned Resume Assessment
-Give a brief assessment of the current match quality with industry perspective.
-
-## Industry-Critical Skills Gap Analysis
-List the most important missing skills and why they matter for this specific role in the current market.
-
-## Immediate Market Actions (Next 2 weeks)
-Specific, actionable steps to address the most critical gaps with real-world applications.
-
-## Professional Development Strategy
-Detailed recommendations for acquiring missing skills with specific industry resources, certifications, and practical projects.
-
-## Resume Market Optimization
-How to better highlight existing skills and align with job requirements using industry terminology.
-
-## Long-term Career Growth Path
-Suggestions for building toward the target role with market trends and growth opportunities.
-
-Be specific, actionable, and encouraging. Focus on practical steps with real-world applications and market relevance."""
+Provide structured recommendations with:
+1. Brief assessment
+2. Critical skills gap analysis
+3. Immediate actionable steps
+4. Professional Development Strategy
+5. Long-term career growth path
+</s>
+<|assistant|>
+"""
         
         try:
             result = self.generator(
@@ -130,15 +121,13 @@ Be specific, actionable, and encouraging. Focus on practical steps with real-wor
             
             # Extract the generated text after our prompt
             generated_text = result[0]['generated_text']
-            # Find the part after our prompt
-            if 'Long-term Career Growth' in generated_text:
-                response = generated_text.split('Long-term Career Growth')[-1]
-                response = '## Recommendations for Resume Enhancement\n\n' + generated_text[len(prompt):].strip()
+            # Find the part after the assistant tag
+            if '<|assistant|>' in generated_text:
+                response = generated_text.split('<|assistant|>')[-1].strip()
             else:
                 response = generated_text[len(prompt):].strip()
             
-            # Clean up any residual prompt fragments
-            response = response.replace('Provide specific, actionable recommendations to improve the resume and address skill gaps:', '').strip()
+            response = '## AI Career Advisor Recommendations\n\n' + response
             
             return response
         except Exception as e:
@@ -268,7 +257,7 @@ Be specific, actionable, and encouraging. Focus on practical steps with real-wor
 _recommendation_generator = None
 
 
-def get_recommendation_generator(model_name: str = "gpt2", use_local: bool = True) -> RecommendationGenerator:
+def get_recommendation_generator(model_name: str = "TinyLlama/TinyLlama-1.1B-Chat-v1.0", use_local: bool = True) -> RecommendationGenerator:
     """
     Get or create a global recommendation generator instance.
     
