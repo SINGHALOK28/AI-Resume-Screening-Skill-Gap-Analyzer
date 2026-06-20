@@ -26,7 +26,7 @@ from embeddings.skill_extractor import get_skill_categories
 class RecommendationGenerator:
     """Generates recommendations using language models."""
     
-    def __init__(self, model_name: str = "gpt2", use_local: bool = True):
+    def __init__(self, model_name: str = None, use_local: bool = False):
         """
         Initialize the recommendation generator.
         
@@ -257,7 +257,7 @@ Provide structured recommendations with:
 _recommendation_generator = None
 
 
-def get_recommendation_generator(model_name: str = "TinyLlama/TinyLlama-1.1B-Chat-v1.0", use_local: bool = True) -> RecommendationGenerator:
+def get_recommendation_generator(model_name: str = None, use_local: bool = False) -> RecommendationGenerator:
     """
     Get or create a global recommendation generator instance.
     
