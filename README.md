@@ -1,3 +1,12 @@
+---
+title: AI Resume Screener
+emoji: 📄
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 8501
+---
+
 # AI Resume Screening System
 
 An intelligent resume screening and skill gap analysis system that leverages AI/ML to match resumes with job descriptions, extract skills, and provide actionable recommendations.
