@@ -165,6 +165,14 @@ def generate_pdf_report(
     return buffer
 
 
+@st.cache_resource
+def load_similarity_engine():
+    return get_similarity_engine()
+
+@st.cache_resource
+def load_recommendation_generator(use_local=False):
+    return get_recommendation_generator(use_local=use_local)
+
 def process_single_resume(resume_file, jd_text, critical_skills, skill_database=None, anonymize=False, use_llm=False):
     """Process a single resume file against job description."""
     progress_bar = st.progress(0)
@@ -186,13 +194,8 @@ def process_single_resume(resume_file, jd_text, critical_skills, skill_database=
         
         status_text.text("🤖 Loading AI model (first time may take a minute)...")
         progress_bar.progress(40)
-        if 'similarity_engine' not in st.session_state:
-            st.session_state['similarity_engine'] = get_similarity_engine()
-        similarity_engine = st.session_state['similarity_engine']
-        
-        if use_llm or 'recommendation_generator' not in st.session_state:
-            st.session_state['recommendation_generator'] = get_recommendation_generator(use_local=use_llm)
-        recommendation_generator = st.session_state['recommendation_generator']
+        similarity_engine = load_similarity_engine()
+        recommendation_generator = load_recommendation_generator(use_local=use_llm)
         
         status_text.text("🔍 Running full analysis...")
         progress_bar.progress(70)
@@ -239,13 +242,8 @@ def process_multiple_resumes(resume_files, jd_text, critical_skills, skill_datab
     st.info(f"📊 Comparing {len(resume_files)} resumes against the job description")
     
     results = []
-    if 'similarity_engine' not in st.session_state:
-        st.session_state['similarity_engine'] = get_similarity_engine()
-    similarity_engine = st.session_state['similarity_engine']
-    
-    if use_llm or 'recommendation_generator' not in st.session_state:
-        st.session_state['recommendation_generator'] = get_recommendation_generator(use_local=use_llm)
-    recommendation_generator = st.session_state['recommendation_generator']
+    similarity_engine = load_similarity_engine()
+    recommendation_generator = load_recommendation_generator(use_local=use_llm)
     
     for i, file in enumerate(resume_files):
         try:
@@ -443,8 +441,8 @@ def display_results():
                         resume_text=results['raw_resume_text'],
                         jd_text=results.get('jd_text', ''),
                         critical_skills=results.get('critical_skills'),
-                        similarity_engine=st.session_state['similarity_engine'],
-                        recommendation_generator=st.session_state['recommendation_generator'],
+                        similarity_engine=load_similarity_engine(),
+                        recommendation_generator=load_recommendation_generator(results.get('use_llm', False)),
                         skill_database=results.get('skill_database'),
                         anonymize=results.get('anonymize', False),
                         filename=results.get('filename', ''),
