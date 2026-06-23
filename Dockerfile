@@ -38,5 +38,5 @@ EXPOSE 7860
 # Healthcheck (updated to 7860)
 HEALTHCHECK CMD curl --fail http://localhost:7860/_stcore/health
 
-# Run Streamlit on port 7860
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=7860", "--server.address=0.0.0.0"]
+# Run Streamlit on port 7860 with HF Space compatible settings
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=7860", "--server.address=0.0.0.0", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
