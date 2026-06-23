@@ -4,7 +4,7 @@ emoji: 📄
 colorFrom: blue
 colorTo: green
 sdk: docker
-app_port: 8501
+app_port: 7860
 ---
 
 # 📄 AI Resume Screening & Ranking System
