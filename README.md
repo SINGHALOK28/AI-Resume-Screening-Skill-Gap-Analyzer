@@ -147,14 +147,16 @@ To get your own live link, you can deploy this project using **Hugging Face Spac
 ### 1. Deploying to Hugging Face Spaces (Recommended)
 Hugging Face Spaces is ideal for this project as it natively supports Docker and Streamlit.
 
-1.  **Create a Space**: Go to [Hugging Face Spaces](https://huggingface.co/new-space).
-2.  **Configure**:
-    - **Space Name**: `AI-Resume-Screener` (or your choice).
-    - **SDK**: Select **Docker**.
-    - **Template**: Choose **Blank**.
-3.  **Upload Files**: Connect your GitHub repository or upload all project files (including the `Dockerfile`, `app.py`, and `requirements.txt`).
-4.  **Build**: Hugging Face will automatically detect the `Dockerfile` and start building the container.
-5.  **Live**: Once the build is "Running", your live link will be visible at the top!
+1.  **Open Your Space**: Go to your existing Space: [https://huggingface.co/spaces/singhalok19/AI-Resume-Screener](https://huggingface.co/spaces/singhalok19/AI-Resume-Screener).
+2.  **Connect GitHub Repo**:
+    - Click the **Settings** tab at the top.
+    - Scroll to the **"Repositories"** section.
+    - Click **"Add repository"**.
+    - Select your repo: `SINGHALOK28/AI-Resume-Screening-Skill-Gap-Analyzer`.
+    - Select the `main` branch.
+    - Click **"Connect"**.
+3.  **Watch Build**: Go back to the **App** tab. You'll see "Building" at the top as Hugging Face detects your `Dockerfile`.
+4.  **Live Link**: When it says "Running", your app is live!
 
 ### 2. Deploying to Streamlit Community Cloud
 If you prefer a direct GitHub-to-Live workflow without Docker:
