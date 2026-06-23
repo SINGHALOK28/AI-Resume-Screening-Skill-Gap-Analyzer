@@ -61,6 +61,4 @@ tmp/
 temp/
 
 # Streamlit cache
-.streamlit/
 .streamlit/cache/
-.streamlit/config.toml
