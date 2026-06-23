@@ -13,6 +13,12 @@ An end-to-end intelligent recruitment solution that automates the resume screeni
 
 ---
 
+## 🌟 Live Demo
+You can access the live application here:
+**[AI Resume Screening & Skill Gap Analyzer](https://huggingface.co/spaces/singhalok19/AI-Resume-Screener)**
+
+---
+
 ## 🌟 Summary
 The **AI Resume Screening System** bridges the gap between manual recruitment and automated efficiency. By leveraging **Sentence Transformers** and **Heuristic Extraction**, it provides a multidimensional analysis of candidates, including skill gap analysis, experience verification, and ATS compatibility checks.
 
@@ -39,6 +45,26 @@ The **AI Resume Screening System** bridges the gap between manual recruitment an
 
 ---
 
+## 📱 Application Options & Usage Guide
+
+### 1. Single Resume Analysis
+Get a deep dive into an individual candidate:
+1. **Enter Candidate Name**: For report personalization.
+2. **Upload Resume**: Supports `.pdf` and `.docx` files (OCR for scanned PDFs).
+3. **Paste Job Description**: Copy-paste the full JD.
+4. **Add Critical Skills (Optional)**: Define weighted skills to prioritize.
+5. **Analyze**: Click "Analyze Resume" to see results.
+6. **Download Report**: Save a professional PDF with all analysis details.
+
+### 2. Group Resume Screening
+Rank multiple candidates at once:
+1. **Enter Job Title**: For context.
+2. **Upload Resumes**: Batch-upload multiple `.pdf`/`.docx` files.
+3. **Paste Job Description**: Standard JD for all candidates.
+4. **Analyze**: View a ranked comparison table with scores.
+
+---
+
 ## ⚙️ How It Works (The Pipeline)
 
 The system operates in four distinct stages:
@@ -59,7 +85,7 @@ The system operates in four distinct stages:
 
 ---
 
-## � Project Structure
+## 📂 Project Structure
 
 ```text
 ai-resume-screening/
@@ -119,7 +145,7 @@ ai-resume-screening/
 2. **Install Dependencies**:
    ```bash
    pip install -r requirements.txt
-   python -m spacy download en_core_web_sm
+   python -m spacy download en_core_web_md
    ```
 
 3. **Run Application**:
@@ -135,7 +161,7 @@ To run the system in a containerized environment:
 
 ```bash
 docker build -t resume-screener .
-docker run -p 8501:8501 resume-screener
+docker run -p 7860:7860 resume-screener
 ```
 
 ---
@@ -165,12 +191,6 @@ If you prefer a direct GitHub-to-Live workflow without Docker:
 2.  **Sign in to Streamlit**: Go to [share.streamlit.io](https://share.streamlit.io/).
 3.  **New App**: Click "New app" and select your repository, branch, and `app.py` as the main file.
 4.  **Deploy**: Click "Deploy". Streamlit will install dependencies from `requirements.txt` and launch the app.
-
----
-
-## 📺 Live Demo
-You can access the live application here:
-**[AI Resume Screening & Skill Gap Analyzer](https://huggingface.co/spaces/singhalok19/AI-Resume-Screener)**
 
 ---
 
