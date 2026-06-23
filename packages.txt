@@ -1,0 +1,4 @@
+# System packages for Streamlit Community Cloud
+# Needed for PDF processing and OCR
+poppler-utils
+tesseract-ocr

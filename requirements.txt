@@ -1,29 +1,30 @@
 # AI Resume Screening & Skill Gap Analyzer
-# Requirements file
+# Requirements optimized for Streamlit Community Cloud
+# CPU-only PyTorch, no CUDA/NVIDIA dependencies
 
 # Core dependencies
-streamlit>=1.28.0
-pandas>=2.0.0
-numpy>=1.24.0
+streamlit==1.38.0
+pandas==2.2.3
+numpy==1.26.4
 
 # PDF and document processing
-pypdf>=3.17.0
-python-docx>=1.1.0
-pdfplumber>=0.9.0  # Optional but recommended for better PDF parsing
+pypdf==4.2.0
+python-docx==1.1.2
+pdfplumber==0.11.4
 
-# NLP and ML
-transformers>=4.35.0
-sentence-transformers>=2.2.2
-torch>=2.0.0
+# NLP and ML (CPU-only)
+transformers==4.44.2
+sentence-transformers==3.0.1
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.0+cpu
 
 # PDF generation for reports
-reportlab>=4.0.0
+reportlab==4.2.5
 
 # Optional: For better text processing
-nltk>=3.8.1
-spacy>=3.7.0
+nltk==3.9.1
+spacy==3.8.2
 
 # Optional: OCR for scanned PDFs (also requires Tesseract installed on system)
-pytesseract>=0.3.10
-pdf2image>=1.16.0
-
+pytesseract==0.3.13
+pdf2image==1.17.0
