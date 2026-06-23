@@ -140,8 +140,9 @@ docker run -p 8501:8501 resume-screener
 
 ---
 
-## � Live Demo
-> **Note**: Currently available as a self-hosted solution. Follow the "Getting Started" instructions above to launch your local instance.
+## 📺 Live Demo
+You can access the live application here:
+**[AI Resume Screening & Skill Gap Analyzer](https://huggingface.co/spaces/SINGHALOK28/AI-Resume-Screening-Skill-Gap-Analyzer)**
 
 ---
 
