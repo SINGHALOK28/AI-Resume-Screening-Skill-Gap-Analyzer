@@ -1,23 +1,16 @@
-# Use official Python image
+# Dockerfile for Hugging Face Spaces
 FROM python:3.11-slim
 
-# Create non-root user for Hugging Face Spaces
+# Set up user and home directory
 RUN useradd -m -u 1000 user
 USER user
-
-# Set environment variables
 ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH \
-    STREAMLIT_SERVER_PORT=7860 \
-    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
-    STREAMLIT_SERVER_ENABLECORS=false \
-    STREAMLIT_SERVER_ENABLEXSRFPROTECTION=false \
-    STREAMLIT_BROWSER_GATHERUSAGESTATS=false
+    PATH=/home/user/.local/bin:$PATH
 
-# Create app directory
+# Set working directory
 WORKDIR $HOME/app
 
-# Install system dependencies (required for some Python packages)
+# Install system dependencies (OCR, PDF processing, etc.)
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -28,27 +21,26 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 USER user
 
-# Copy requirements first to leverage Docker caching
-COPY --chown=user:user requirements.txt .
-
-# Install Python dependencies
+# Install Python dependencies (copied first for caching)
+COPY --chown=user:user requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Download spaCy model during build
+# Download spaCy model
 RUN python -m spacy download en_core_web_md
 
-# Copy Streamlit config
-COPY --chown=user:user .streamlit .streamlit
-
-# Copy the entire application code
+# Copy app code
 COPY --chown=user:user . .
 
-# Expose Hugging Face's required port
+# Hugging Face Spaces requires port 7860
 EXPOSE 7860
 
-# Healthcheck
-HEALTHCHECK CMD curl --fail http://localhost:7860/_stcore/health || exit 1
+# Set Streamlit config via environment variables
+ENV STREAMLIT_SERVER_PORT=7860 \
+    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
+    STREAMLIT_SERVER_ENABLECORS=false \
+    STREAMLIT_SERVER_ENABLEXSRFPROTECTION=false \
+    STREAMLIT_BROWSER_GATHERUSAGESTATS=false
 
-# Run the application
-ENTRYPOINT ["streamlit", "run", "app.py"]
+# Run the app
+CMD ["streamlit", "run", "app.py"]
