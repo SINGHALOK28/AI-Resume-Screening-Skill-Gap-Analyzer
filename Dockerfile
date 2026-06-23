@@ -1,42 +1,54 @@
+# Use official Python image
 FROM python:3.11-slim
 
-# Create user for Hugging Face permissions (required)
+# Create non-root user for Hugging Face Spaces
 RUN useradd -m -u 1000 user
 USER user
 
-# Set environment
+# Set environment variables
 ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH
+    PATH=/home/user/.local/bin:$PATH \
+    STREAMLIT_SERVER_PORT=7860 \
+    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
+    STREAMLIT_SERVER_ENABLECORS=false \
+    STREAMLIT_SERVER_ENABLEXSRFPROTECTION=false \
+    STREAMLIT_BROWSER_GATHERUSAGESTATS=false
 
+# Create app directory
 WORKDIR $HOME/app
 
-# Install system dependencies
+# Install system dependencies (required for some Python packages)
 USER root
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     git \
+    poppler-utils \
+    tesseract-ocr \
     && rm -rf /var/lib/apt/lists/*
 USER user
 
-# Copy requirements first
-COPY --chown=user requirements.txt .
+# Copy requirements first to leverage Docker caching
+COPY --chown=user:user requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Download spaCy model
+# Download spaCy model during build
 RUN python -m spacy download en_core_web_md
 
-# Copy the rest of the application
-COPY --chown=user . .
+# Copy Streamlit config
+COPY --chown=user:user .streamlit .streamlit
 
-# Expose Hugging Face's default Docker port
+# Copy the entire application code
+COPY --chown=user:user . .
+
+# Expose Hugging Face's required port
 EXPOSE 7860
 
-# Healthcheck (updated to 7860)
-HEALTHCHECK CMD curl --fail http://localhost:7860/_stcore/health
+# Healthcheck
+HEALTHCHECK CMD curl --fail http://localhost:7860/_stcore/health || exit 1
 
-# Run Streamlit on port 7860 with HF Space compatible settings
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=7860", "--server.address=0.0.0.0", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
+# Run the application
+ENTRYPOINT ["streamlit", "run", "app.py"]
