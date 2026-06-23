@@ -168,7 +168,7 @@ If you prefer a direct GitHub-to-Live workflow without Docker:
 
 ## 📺 Live Demo
 You can access the live application here:
-**[AI Resume Screening & Skill Gap Analyzer](https://huggingface.co/spaces/SINGHALOK28/AI-Resume-Screener)**
+**[AI Resume Screening & Skill Gap Analyzer](https://huggingface.co/spaces/singhalok19/AI-Resume-Screener)**
 
 ---
 
