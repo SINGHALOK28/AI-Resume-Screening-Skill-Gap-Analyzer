@@ -140,6 +140,32 @@ docker run -p 8501:8501 resume-screener
 
 ---
 
+## 🚀 Deployment Guide
+
+To get your own live link, you can deploy this project using **Hugging Face Spaces** or **Streamlit Community Cloud**.
+
+### 1. Deploying to Hugging Face Spaces (Recommended)
+Hugging Face Spaces is ideal for this project as it natively supports Docker and Streamlit.
+
+1.  **Create a Space**: Go to [Hugging Face Spaces](https://huggingface.co/new-space).
+2.  **Configure**:
+    - **Space Name**: `AI-Resume-Screener` (or your choice).
+    - **SDK**: Select **Docker**.
+    - **Template**: Choose **Blank**.
+3.  **Upload Files**: Connect your GitHub repository or upload all project files (including the `Dockerfile`, `app.py`, and `requirements.txt`).
+4.  **Build**: Hugging Face will automatically detect the `Dockerfile` and start building the container.
+5.  **Live**: Once the build is "Running", your live link will be visible at the top!
+
+### 2. Deploying to Streamlit Community Cloud
+If you prefer a direct GitHub-to-Live workflow without Docker:
+
+1.  **Push to GitHub**: Ensure your code is pushed to a public repository.
+2.  **Sign in to Streamlit**: Go to [share.streamlit.io](https://share.streamlit.io/).
+3.  **New App**: Click "New app" and select your repository, branch, and `app.py` as the main file.
+4.  **Deploy**: Click "Deploy". Streamlit will install dependencies from `requirements.txt` and launch the app.
+
+---
+
 ## 📺 Live Demo
 You can access the live application here:
 **[AI Resume Screening & Skill Gap Analyzer](https://huggingface.co/spaces/SINGHALOK28/AI-Resume-Screener)**
