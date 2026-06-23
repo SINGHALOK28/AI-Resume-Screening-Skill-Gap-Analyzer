@@ -230,19 +230,32 @@ def extract_resume_text(path_or_file):
                 raw_text = extract_docx_text_advanced(file_bytes_io)
             else:
                 raise ValueError(f"Unsupported file format: {file_extension}")
+            is_pdf = file_extension == 'pdf'
         
         # Handle file path (string)
         else:
             path = str(path_or_file)
-            if path.lower().endswith('.pdf'):
+            is_pdf = path.lower().endswith('.pdf')
+            if is_pdf:
                 raw_text = extract_pdf_text_advanced(path)
             elif path.lower().endswith(('.docx', '.doc')):
                 raw_text = extract_docx_text_advanced(path)
             else:
                 raise ValueError(f"Unsupported file format: {path}")
+            file_bytes = None
         
         # Clean and return
         cleaned_text = clean_extracted_text(raw_text)
+        
+        # OCR fallback for image-based PDFs
+        if (not cleaned_text or len(cleaned_text.strip()) < 20) and is_pdf:
+            from preprocessing.ocr_parser import try_ocr_on_pdf
+            if file_bytes is not None:
+                ocr_text = try_ocr_on_pdf(file_bytes)
+            else:
+                ocr_text = try_ocr_on_pdf(path)
+            if ocr_text:
+                cleaned_text = clean_extracted_text(ocr_text)
         
         # Validate extraction
         if not cleaned_text or len(cleaned_text.strip()) < 10:

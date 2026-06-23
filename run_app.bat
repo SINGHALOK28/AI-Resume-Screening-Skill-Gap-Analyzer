@@ -2,6 +2,12 @@
 echo Starting AI Resume Screening System...
 echo.
 cd /d "%~dp0"
-streamlit run frontend/streamlit_app.py
-pause
 
+IF EXIST ".venv\Scripts\streamlit.exe" (
+    echo [INFO] Found virtual environment.
+    ".venv\Scripts\streamlit.exe" run app.py
+) ELSE (
+    echo [INFO] Virtual environment not found. Using global Streamlit.
+    streamlit run app.py
+)
+pause

@@ -23,3 +23,7 @@ reportlab>=4.0.0
 nltk>=3.8.1
 spacy>=3.7.0
 
+# Optional: OCR for scanned PDFs (also requires Tesseract installed on system)
+pytesseract>=0.3.10
+pdf2image>=1.16.0
+
