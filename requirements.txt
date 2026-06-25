@@ -16,7 +16,7 @@ pdfplumber==0.11.4
 transformers==4.44.2
 sentence-transformers==3.0.1
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.4.0+cpu
+torch==2.9.1+cpu
 
 # PDF generation for reports
 reportlab==4.2.5
