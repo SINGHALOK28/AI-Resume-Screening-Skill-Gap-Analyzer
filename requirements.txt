@@ -15,7 +15,7 @@ pdfplumber==0.11.4
 # NLP and ML (CPU-only)
 transformers==4.33.2
 sentence-transformers==2.7.0
-torch==2.7.1
+torch==2.12.1
 
 # PDF generation for reports
 reportlab==4.2.5
